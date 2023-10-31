@@ -40,12 +40,17 @@ def server_verwijderen():
         for server in data:
             if server["server"] == naam_server:
                 data.remove(server)
-                print("server is verwijderd")
             else:
                 print("server niet gevonden")
         with open('serverlijst.json', 'w') as file:
             json.dump(data, file, indent=4)
         i = input("type 'stop' om te stoppen of druk op enter om door te gaan: ")
+
+def server_lijst():
+    with open('serverlijst.json', 'r') as file:
+        data = json.load(file)
+    for server in data:
+        print(server["server"] + " " + server["ip"])
 
 
 #Keuze = input("kies uit de volgende opties: \n 'server toevoegen','server verwijderen','server lijst' \n")
@@ -59,11 +64,12 @@ def main():
         Keuze = input("kies uit de volgende opties: \n 'server toevoegen','server verwijderen','server lijst' \n")
     
     if Keuze == OPTIE1:
-        print("server toevoegen")
         server_toevoegen()
     elif Keuze == OPTIE2:
-        pass
+        server_verwijderen()
+        print(Keuze)
     elif Keuze == OPTIE3:
+
         pass
     else:
         print("geen geldige optie")
