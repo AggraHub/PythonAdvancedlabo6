@@ -2,6 +2,7 @@ from enum import Enum
 import sys 
 from time import sleep
 import json
+from ping3 import ping
 
 OPTIE1 = "server toevoegen"
 OPTIE2 = "server verwijderen"
@@ -52,26 +53,63 @@ def server_lijst():
     for server in data:
         print(server["server"] + " " + server["ip"])
 
+def ping(server) -> str:
+    response = None
+    with open('serverlijst.json', 'r') as file:
+        data = json.load(file)
+    for server in data:
+        server_name = server["server"]
+        if response == None:
+           response = server_name + " is offline"
+        else:
+            response = server_name + " is online"
 
+    return response
+
+def update_json_with_ping_status():
+    with open('serverlijst.json', 'r') as file:
+        data = json.load(file)
+
+    for server in data:
+        server_name = server["server"]
+        status = ping(server_name)
+        server["status"] = status  # Add the 'status' key to each object
+
+    # Save the updated data back to the file
+    with open('serverlijst.json', 'w') as file:
+        json.dump(data, file, indent=4)
+    
+    
+
+
+
+
+    
 #Keuze = input("kies uit de volgende opties: \n 'server toevoegen','server verwijderen','server lijst' \n")
 def main():
-    if len(sys.argv) > 1:
-        sys.argv[1] == OPTIE1 or sys.argv[1] == OPTIE2 or sys.argv[1] == OPTIE3
-        Keuze = sys.argv[1]
-        print(Keuze + " is een geldige optie")
-        sleep(1)
-    else:
-        Keuze = input("kies uit de volgende opties: \n 'server toevoegen','server verwijderen','server lijst' \n")
-    
-    if Keuze == OPTIE1:
-        server_toevoegen()
-    elif Keuze == OPTIE2:
-        server_verwijderen()
-        print(Keuze)
-    elif Keuze == OPTIE3:
 
-        pass
-    else:
-        print("geen geldige optie")
+    configKeuze = input("kies uit 'modi' of 'checks': ")
+    if configKeuze == "modi":
+        if len(sys.argv) > 1:
+            sys.argv[1] == OPTIE1 or sys.argv[1] == OPTIE2 or sys.argv[1] == OPTIE3
+            Keuze = sys.argv[1]
+            print(Keuze + " is een geldige optie")
+            sleep(1)
+        else:
+            Keuze = input("kies uit de volgende opties: \n 'server toevoegen','server verwijderen','server lijst' \n")
+        
+        if Keuze == OPTIE1:
+            server_toevoegen()
+        elif Keuze == OPTIE2:
+            server_verwijderen()
+            print(Keuze)
+        elif Keuze == OPTIE3:
+            server_lijst()
+        else:
+            print("geen geldige optie")
+
+    elif configKeuze == "checks":
+        update_json_with_ping_status()
+        print("ping status is geupdate")
 if __name__ == "__main__":
     main()

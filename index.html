@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Server Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        thead {
+            background-color: #333;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Server Status</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Server</th>
+                <th>IP Address</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="server-status-table">
+        </tbody>
+    </table>
+
+    <script>
+        // Function to update the server status table
+        function updateServerStatusTable() {
+            fetch('serverlijst.json') // Replace with the path to your JSON file
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('server-status-table');
+                    tableBody.innerHTML = ''; // Clear the table
+
+                    data.forEach(server => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${server.server}</td>
+                            <td>${server.ip}</td>
+                            <td>${server.status}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                });
+        }
+
+        // Update the table initially and then every 5 seconds
+        updateServerStatusTable();
+        setInterval(updateServerStatusTable, 5000); // Update every 5 seconds
+    </script>
+</body>
+</html>

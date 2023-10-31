@@ -1,18 +1,22 @@
 [
     {
         "server": "google.be",
-        "ip": "8.8.8.8"
+        "ip": "8.8.8.8",
+        "status": "samsung.com is online"
     },
     {
         "server": "apple.com",
-        "ip": "1.2.3.4"
+        "ip": "1.2.3.4",
+        "status": "samsung.com is online"
     },
     {
         "server": "ba.be",
-        "ip": "192.168.1.1"
+        "ip": "192.168.1.1",
+        "status": "samsung.com is online"
     },
     {
         "server": "samsung.com",
-        "ip": "1.2.3.4"
+        "ip": "1.2.3.4",
+        "status": "samsung.com is online"
     }
 ]
